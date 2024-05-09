@@ -17,9 +17,11 @@ directory = os.getcwd()
 # check to see what system I'm using
 name = platform.system()
 if name == 'Linux' or name == 'Darwin':
-    filename = f"{directory}/code/week2/root.sql"
+    print("Linux or Darwin System Detected")
+    filename = f"{directory}/database/setup/root.sql"
 elif name == 'Windows':
-    filename = f"{directory}\\root.sql"
+    print("Windows System Detected")
+    filename = f"{directory}\\setup.sql"
 
 with open(filename, 'r+') as file:
     sqlFile = file.read()
@@ -40,18 +42,21 @@ with open(filename, 'r+') as file:
 mydb.close()
 
 # connect to the new user
-student = mysql.connector.connect(
+clearview = mysql.connector.connect(
     host="localhost",
-    user="student",
-    password="student",
+    user="clearview",
+    password="CView24",
 )
 
-studentcursor = student.cursor()
-studentcursor.execute("SHOW DATABASES")
-output = studentcursor.fetchall()
+clearviewcursor = clearview.cursor()
+clearviewcursor.execute("SELECT 'clearview USER EXISTS'")
+useroutput = clearviewcursor.fetchall()
+clearviewcursor.execute("SHOW DATABASES")
+output = clearviewcursor.fetchall()
+print(useroutput)
 # print the databases
 for x in output:
     print(x)
 
 # close the connection
-student.close()
+clearview.close()
