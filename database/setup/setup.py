@@ -22,7 +22,7 @@ if name == 'Linux' or name == 'Darwin':
     filename = f"{directory}/database/setup/root.sql"
     run_git = input("Would you like to run the github desktop script? (y/n): ")
     if run_git == 'y':
-        subprocess.run(["bash", f"{directory}/code/week2/github.sh"])
+        subprocess.run(["bash", f"{directory}/database/setup/github.sh"])
     else:
         print("Skipping github desktop script")
 elif name == 'Windows':
