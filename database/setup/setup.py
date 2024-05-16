@@ -19,7 +19,7 @@ directory = os.getcwd()
 name = platform.system()
 if name == 'Linux' or name == 'Darwin':
     print("Linux or Darwin System Detected")
-    filename = f"{directory}/database/setup/root.sql"
+    filename = f"{directory}/database/setup/setup.sql"
     run_git = input("Would you like to run the github desktop script? (y/n): ")
     if run_git == 'y':
         subprocess.run(["bash", f"{directory}/database/setup/github.sh"])
