@@ -73,10 +73,10 @@ CREATE TABLE IF NOT EXISTS `clearview`.`cust_order` (
   PRIMARY KEY (`cust_order_id`),
   INDEX `fk_cust_order_customer_idx` (`customer_id` ASC) VISIBLE,
   INDEX `fk_cust_order_order1_idx` (`order_id` ASC) VISIBLE,
-  CONSTRAINT `fk_cust_order_customer`
+  CONSTRAINT `cust_order_fk1`
     FOREIGN KEY (`customer_id`)
     REFERENCES `clearview`.`customer` (`customer_id`),
-  CONSTRAINT `fk_cust_order_order1`
+  CONSTRAINT `cust_order_fk2`
     FOREIGN KEY (`order_id`)
     REFERENCES `clearview`.`order` (`order_id`))
 ENGINE = InnoDB
@@ -207,9 +207,6 @@ DROP TABLE IF EXISTS `clearview`.`mirage` ;
 CREATE TABLE IF NOT EXISTS `clearview`.`mirage` (
   `mirage_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `mirage_build_out` VARCHAR(45) NOT NULL,
-  `mirage_color` VARCHAR(45) NOT NULL,
-  `pivot_pro_color` VARCHAR(45) NOT NULL,
-  `mirage_mesh` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`mirage_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
@@ -222,10 +219,97 @@ DROP TABLE IF EXISTS `clearview`.`mirage_3500` ;
 
 CREATE TABLE IF NOT EXISTS `clearview`.`mirage_3500` (
   `mirage_3500_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `mirage_3500_name` VARCHAR(45) NOT NULL,
   `mirage_3500_handle` VARCHAR(45) NOT NULL,
-  `mirage_3500_mesh` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`mirage_3500_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`color`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`color` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`color` (
+  `color_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `color_name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`color_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`frame_size`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`frame_size` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`frame_size` (
+  `frame_size_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `size_type` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`frame_size_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`fastener`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`fastener` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`fastener` (
+  `fastener_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `fastener_type` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`fastener_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`mesh`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`mesh` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`mesh` (
+  `mesh_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `mesh_type` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`mesh_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`window`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`window` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`window` (
+  `window_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tab_spring` VARCHAR(45) NOT NULL,
+  `color_id` INT UNSIGNED NOT NULL,
+  `frame_size_id` INT UNSIGNED NOT NULL,
+  `fastener_id` INT UNSIGNED NOT NULL,
+  `mesh_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`window_id`),
+  INDEX `window_fk1_idx` (`color_id` ASC) VISIBLE,
+  INDEX `window_fk2_idx` (`frame_size_id` ASC) VISIBLE,
+  INDEX `window_fk3_idx` (`fastener_id` ASC) VISIBLE,
+  INDEX `window_fk4_idx` (`mesh_id` ASC) VISIBLE,
+  CONSTRAINT `window_fk1`
+    FOREIGN KEY (`color_id`)
+    REFERENCES `clearview`.`color` (`color_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `window_fk2`
+    FOREIGN KEY (`frame_size_id`)
+    REFERENCES `clearview`.`frame_size` (`frame_size_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `window_fk3`
+    FOREIGN KEY (`fastener_id`)
+    REFERENCES `clearview`.`fastener` (`fastener_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `window_fk4`
+    FOREIGN KEY (`mesh_id`)
+    REFERENCES `clearview`.`mesh` (`mesh_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -236,16 +320,17 @@ DEFAULT CHARACTER SET = utf8mb3;
 DROP TABLE IF EXISTS `clearview`.`new_window_screen` ;
 
 CREATE TABLE IF NOT EXISTS `clearview`.`new_window_screen` (
-  `new_window_screen_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `frame` VARCHAR(45) NOT NULL,
-  `color` VARCHAR(45) NOT NULL,
-  `width` VARCHAR(45) NOT NULL,
-  `height` VARCHAR(45) NOT NULL,
-  `tab` VARCHAR(45) NULL DEFAULT NULL,
-  `spring` VARCHAR(45) NOT NULL,
-  `mesh` VARCHAR(45) NOT NULL,
-  `fastener` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`new_window_screen_id`))
+  `nws_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `width_inch` VARCHAR(45) NOT NULL COMMENT 'in inches',
+  `height_inch` VARCHAR(45) NOT NULL COMMENT 'in inches',
+  `window_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`nws_id`),
+  INDEX `nws_fk1_idx` (`window_id` ASC) VISIBLE,
+  CONSTRAINT `nws_fk1`
+    FOREIGN KEY (`window_id`)
+    REFERENCES `clearview`.`window` (`window_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -265,13 +350,13 @@ CREATE TABLE IF NOT EXISTS `clearview`.`order_log` (
   INDEX `fk_order_log_order1_idx` (`order_id` ASC) VISIBLE,
   INDEX `fk_order_log_employee1_idx` (`employee_id` ASC) VISIBLE,
   INDEX `fk_order_log_customer1_idx` (`customer_id` ASC) VISIBLE,
-  CONSTRAINT `fk_order_log_customer1`
+  CONSTRAINT `order_log_fk1`
     FOREIGN KEY (`customer_id`)
     REFERENCES `clearview`.`customer` (`customer_id`),
-  CONSTRAINT `fk_order_log_employee1`
+  CONSTRAINT `order_log_fk2`
     FOREIGN KEY (`employee_id`)
     REFERENCES `clearview`.`employee` (`employee_id`),
-  CONSTRAINT `fk_order_log_order1`
+  CONSTRAINT `order_log_fk3`
     FOREIGN KEY (`order_id`)
     REFERENCES `clearview`.`order` (`order_id`))
 ENGINE = InnoDB
@@ -311,10 +396,6 @@ CREATE TABLE IF NOT EXISTS `clearview`.`rainier` (
   `rainier_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `est_placement` VARCHAR(45) NULL,
   `act_placement` VARCHAR(45) NULL,
-  `est_hardware_color` VARCHAR(45) NULL DEFAULT NULL,
-  `act_hardware_color` VARCHAR(45) NULL DEFAULT NULL,
-  `est_fabric_color` VARCHAR(45) NULL DEFAULT NULL,
-  `act_fabric_color` VARCHAR(45) NULL DEFAULT NULL,
   `est_housing_series` VARCHAR(45) NULL DEFAULT NULL,
   `act_housing_series` VARCHAR(45) NULL DEFAULT NULL,
   `est_drive_side` VARCHAR(45) NULL DEFAULT NULL,
@@ -325,8 +406,6 @@ CREATE TABLE IF NOT EXISTS `clearview`.`rainier` (
   `act_pilebrush` VARCHAR(45) NULL DEFAULT NULL,
   `est_brush_location` VARCHAR(45) NULL DEFAULT NULL,
   `act_brush_location` VARCHAR(45) NULL DEFAULT NULL,
-  `est_zipper_color` VARCHAR(45) NULL DEFAULT NULL,
-  `act_zipper_color` VARCHAR(45) NULL DEFAULT NULL,
   `est_cord_length` VARCHAR(45) NULL DEFAULT NULL,
   `act_cord_length` VARCHAR(45) NULL DEFAULT NULL,
   `est_mount_type` VARCHAR(45) NULL DEFAULT NULL,
@@ -388,25 +467,6 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `clearview`.`window`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `clearview`.`window` ;
-
-CREATE TABLE IF NOT EXISTS `clearview`.`window` (
-  `window_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `frame_size` VARCHAR(45) NOT NULL,
-  `frame_color` VARCHAR(45) NOT NULL,
-  `fraction` VARCHAR(45) NOT NULL,
-  `plus_or_minus` CHAR(1) NOT NULL,
-  `tab_spring` VARCHAR(45) NOT NULL,
-  `mesh` VARCHAR(45) NOT NULL,
-  `fastener` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`window_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
 -- Table `clearview`.`wizard_smart_screen`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `clearview`.`wizard_smart_screen` ;
@@ -443,18 +503,6 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `clearview`.`color`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `clearview`.`color` ;
-
-CREATE TABLE IF NOT EXISTS `clearview`.`color` (
-  `color_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `color_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`color_id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `clearview`.`measurement`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `clearview`.`measurement` ;
@@ -463,6 +511,168 @@ CREATE TABLE IF NOT EXISTS `clearview`.`measurement` (
   `measurement_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `measurement_name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`measurement_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`nws_measurement`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`nws_measurement` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`nws_measurement` (
+  `nws_measurement_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `measurement_id` INT UNSIGNED NOT NULL,
+  `nws_id` INT UNSIGNED NOT NULL,
+  `width_fraction` CHAR(1) NULL,
+  `width_plus_minus` CHAR(1) NULL,
+  `height_fraction` CHAR(1) NULL,
+  `height_plus_minus` CHAR(1) NULL,
+  PRIMARY KEY (`nws_measurement_id`),
+  INDEX `nws_measurement_fk1_idx` (`measurement_id` ASC) VISIBLE,
+  INDEX `nws_measurement_fk2_idx` (`nws_id` ASC) VISIBLE,
+  CONSTRAINT `nws_measurement_fk1`
+    FOREIGN KEY (`measurement_id`)
+    REFERENCES `clearview`.`measurement` (`measurement_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `nws_measurement_fk2`
+    FOREIGN KEY (`nws_id`)
+    REFERENCES `clearview`.`new_window_screen` (`nws_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`rainier_color`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`rainier_color` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`rainier_color` (
+  `rainier_color_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `rainier_id` INT UNSIGNED NOT NULL,
+  `color_id` INT UNSIGNED NOT NULL,
+  `est_hardware_color` CHAR(1) NULL,
+  `act_hardware_color` CHAR(1) NULL,
+  `est_fabric_color` CHAR(1) NULL,
+  `act_fabric_color` CHAR(1) NULL,
+  `est_zipper_color` CHAR(1) NULL DEFAULT NULL,
+  `act_zipper_color` CHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`rainier_color_id`),
+  INDEX `rainier_color_fk1_idx` (`rainier_id` ASC) VISIBLE,
+  INDEX `rainier_color_fk2_idx` (`color_id` ASC) VISIBLE,
+  CONSTRAINT `rainier_color_fk1`
+    FOREIGN KEY (`rainier_id`)
+    REFERENCES `clearview`.`rainier` (`rainier_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `rainier_color_fk2`
+    FOREIGN KEY (`color_id`)
+    REFERENCES `clearview`.`color` (`color_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`mirage_3500_mesh`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`mirage_3500_mesh` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`mirage_3500_mesh` (
+  `mirage_3500_mesh_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `mirage_3500_id` INT UNSIGNED NOT NULL,
+  `mesh_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`mirage_3500_mesh_id`),
+  INDEX `mirage_3500_mesh_fk1_idx` (`mirage_3500_id` ASC) VISIBLE,
+  INDEX `mirage_3500_mesh_fk2_idx` (`mesh_id` ASC) VISIBLE,
+  CONSTRAINT `mirage_3500_mesh_fk1`
+    FOREIGN KEY (`mirage_3500_id`)
+    REFERENCES `clearview`.`mirage_3500` (`mirage_3500_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `mirage_3500_mesh_fk2`
+    FOREIGN KEY (`mesh_id`)
+    REFERENCES `clearview`.`mesh` (`mesh_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`mirage_mesh`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`mirage_mesh` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`mirage_mesh` (
+  `mirage_mesh_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `mirage_id` INT UNSIGNED NOT NULL,
+  `mesh_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`mirage_mesh_id`),
+  INDEX `mirage_mesh_fk1_idx` (`mirage_id` ASC) VISIBLE,
+  INDEX `mirage_mesh_fk2_idx` (`mesh_id` ASC) VISIBLE,
+  CONSTRAINT `mirage_mesh_fk1`
+    FOREIGN KEY (`mirage_id`)
+    REFERENCES `clearview`.`mirage` (`mirage_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `mirage_mesh_fk2`
+    FOREIGN KEY (`mesh_id`)
+    REFERENCES `clearview`.`mesh` (`mesh_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`mirage_3500_color`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`mirage_3500_color` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`mirage_3500_color` (
+  `mirage_3500_color_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `mirage_3500_id` INT UNSIGNED NOT NULL,
+  `color_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`mirage_3500_color_id`),
+  INDEX `mirage_3500_color_fk1_idx` (`mirage_3500_id` ASC) VISIBLE,
+  INDEX `mirage_3500_color_fk2_idx` (`color_id` ASC) VISIBLE,
+  CONSTRAINT `mirage_3500_color_fk1`
+    FOREIGN KEY (`mirage_3500_id`)
+    REFERENCES `clearview`.`mirage_3500` (`mirage_3500_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `mirage_3500_color_fk2`
+    FOREIGN KEY (`color_id`)
+    REFERENCES `clearview`.`color` (`color_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `clearview`.`mirage_color`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clearview`.`mirage_color` ;
+
+CREATE TABLE IF NOT EXISTS `clearview`.`mirage_color` (
+  `mirage_color_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `mirage_id` INT UNSIGNED NOT NULL,
+  `color_id` INT UNSIGNED NOT NULL,
+  `mirage_color` CHAR(1) NULL,
+  `pivot_pro_color` CHAR(1) NULL,
+  PRIMARY KEY (`mirage_color_id`),
+  INDEX `mirage_color_fk1_idx` (`mirage_id` ASC) VISIBLE,
+  INDEX `mirage_color_fk2_idx` (`color_id` ASC) VISIBLE,
+  CONSTRAINT `mirage_color_fk1`
+    FOREIGN KEY (`mirage_id`)
+    REFERENCES `clearview`.`mirage` (`mirage_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `mirage_color_fk2`
+    FOREIGN KEY (`color_id`)
+    REFERENCES `clearview`.`color` (`color_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
