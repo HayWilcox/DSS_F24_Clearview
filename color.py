@@ -1,5 +1,6 @@
 import streamlit as st
 import mysql.connector
+import pandas as pd
 
 clearview = mysql.connector.connect(
     host="localhost",
@@ -17,3 +18,8 @@ if color_button:
     cvcursor.execute('INSERT INTO color (color_name) VALUES (%s)', (color,))
     clearview.commit()
     st.write('successful')
+
+cvcursor.execute('SELECT * FROM color')
+df = pd.DataFrame(cvcursor.fetchall())
+df.columns = ['Color Id', 'Color']
+st.write(df)
