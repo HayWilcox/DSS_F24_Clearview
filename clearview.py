@@ -7,4 +7,4 @@ except ImportError:
     os.system('pip install streamlit')
     import streamlit as st
     
-st.write('Hello World')
+st.write('Hello Team!')
