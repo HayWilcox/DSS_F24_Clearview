@@ -1,25 +1,27 @@
-import streamlit as st
-import mysql.connector
 import pandas as pd
+class color:
 
-clearview = mysql.connector.connect(
-    host="localhost",
-    user="clearview",
-    password="CView24",
-    database='clearview'
-)
+    def __init__(self, cvcursor, cvconn):
+        self.cvcursor = cvcursor
+        self.cvconn = cvconn
 
-cvcursor = clearview.cursor()
+    def insert_color(self, color):
+        self.cvcursor.execute('INSERT INTO color (color_name) VALUES (%s)', (color,))
+        self.cvconn.commit()
 
-color = st.text_input('Please enter a color: ')
-color_button = st.button('Submit', key=1)
+    def select_color(self):
+        self.cvcursor.execute('SELECT * FROM color')
+        return self.cvcursor.fetchall()
+    
+    def display_color(self):
+        df = pd.DataFrame(self.select_color())
+        df.columns = ['Color Id', 'Color']
+        return df
+    
+    def update_color(self, color_id, color):
+        self.cvcursor.execute('UPDATE color SET color_name = %s WHERE color_id = %s', (color, color_id))
+        self.cvconn.commit()
 
-if color_button:
-    cvcursor.execute('INSERT INTO color (color_name) VALUES (%s)', (color,))
-    clearview.commit()
-    st.write('successful')
-
-cvcursor.execute('SELECT * FROM color')
-df = pd.DataFrame(cvcursor.fetchall())
-df.columns = ['Color Id', 'Color']
-st.write(df)
+    def delete_color(self, color_id):
+        self.cvcursor.execute('DELETE FROM color WHERE color_id = %s', (color_id,))
+        self.cvconn.commit()
