@@ -1,5 +1,4 @@
 import pandas as pd
-import mysql.connector
 
 class Measurement:
     
@@ -15,7 +14,7 @@ class Measurement:
         self.cvcursor.execute("SELECT * FROM measurement")
         return self.cvcursor.fetchall()
         
-    def display_color(self):
+    def display_measurement(self):
         df = pd.DataFrame(self.select_measurement())
         df.columns = ['Measurement Id', 'Measurement']
         return df
