@@ -3,6 +3,10 @@ article {
     max-width: 50%;
 }
 
+h1 {
+    text-align: center;
+}
+
 h2 {
     border-bottom: 2px solid black;
 }
