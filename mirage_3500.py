@@ -29,10 +29,3 @@ class color:
         df.columns = ['Color Id', 'Color']
         return df
     
-    def update_color(self, color_id, color):
-        self.cvcursor.execute('UPDATE color SET color_name = %s WHERE color_id = %s', (color, color_id))
-        self.cvconn.commit()
-
-    def delete_color(self, color_id):
-        self.cvcursor.execute('DELETE FROM color WHERE color_id = %s', (color_id,))
-        self.cvconn.commit()
