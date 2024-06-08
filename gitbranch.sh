@@ -1,3 +1,4 @@
+#!/bin/bash
 # Create a new branch in git based on input from user
 # using branch name as argument
 
