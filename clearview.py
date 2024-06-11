@@ -14,7 +14,7 @@ from color import *
 try:
     import streamlit as st
 
-except ImportError:
+except ImportError or ModuleNotFoundError:
     os.system('pip install streamlit')
     import streamlit as st
     
