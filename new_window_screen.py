@@ -19,7 +19,7 @@ class new_window_screen:
         return df
     
     def update_new_window_screen(self, nws_id, width_inch, height_inch):
-        self.cvcursor.execute('UPDATE new_window_screen SET width_inch = %s AND height_inch = %s WHERE nws_id = %s', (width_inch, height_inch, nws_id,))
+        self.cvcursor.execute('UPDATE new_window_screen SET width_inch = %s, height_inch = %s WHERE nws_id = %s', (width_inch, height_inch, nws_id,))
         self.cvconn.commit()
 
     def delete_new_window_screen(self, nws_id):
