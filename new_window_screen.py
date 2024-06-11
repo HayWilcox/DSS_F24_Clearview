@@ -1,5 +1,5 @@
 import pandas as pd
-class color:
+class new_window_screen:
 
     def __init__(self, cvcursor, cvconn):
         self.cvcursor = cvcursor
@@ -19,8 +19,7 @@ class color:
         return df
     
     def update_new_window_screen(self, nws_id, width_inch, height_inch):
-        self.cvcursor.execute('UPDATE new_window_screen SET width_inch = %s WHERE nws_id = %s', (width_inch, nws_id))
-        self.cvcursor.execute('UPDATE new_window_screen SET height_inch = %s WHERE nws_id = %s', (height_inch, nws_id))
+        self.cvcursor.execute('UPDATE new_window_screen SET width_inch = %s AND height_inch = %s WHERE nws_id = %s', (width_inch, height_inch, nws_id,))
         self.cvconn.commit()
 
     def delete_new_window_screen(self, nws_id):
