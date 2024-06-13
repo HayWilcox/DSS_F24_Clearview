@@ -10,6 +10,7 @@
 import os
 import mysql.connector
 from color import *
+from frame_size import *
 
 try:
     import streamlit as st
@@ -35,17 +36,19 @@ cvcursor = clearview.cursor()
 # Class Initialization
 # -----------------------
 color = color(cvcursor, clearview)
+frame_size = frame_size(cvcursor, clearview)
 
 # -----------------------
 # Main Program
 # -----------------------
 
 # drop down for color options for insert, update, and delete
-color_options = st.selectbox('Please select an option for the Color Table: ', ('Choose an option','View', 'Insert', 'Update', 'Delete'))
+color_options = st.selectbox('Please select an option for the Color Table: ', 
+                                ('Choose an option','View', 'Insert', 'Update', 'Delete'))
 
 if color_options == 'Insert':
     color_choice = st.text_input('Please enter a color: ')
-    color_button = st.button('Submit', key=1)
+    color_button = st.button('Insert Color', key=1)
 
     if color_button:
         color.insert_color(color_choice)
@@ -53,3 +56,64 @@ if color_options == 'Insert':
 
 elif color_options == 'View':
     st.write(color.display_color())
+
+elif color_options == 'Update':
+    st.write(color.display_color())
+
+    color_id = st.text_input('Please enter the color id: ')
+    color_choice = st.text_input('Please enter a color: ')
+
+    color_button = st.button('Update Color', key=2)
+
+    if color_button:
+        color.update_color(color_id, color_choice)
+        st.write('successful')
+
+elif color_options == 'Delete':
+    st.write(color.display_color())
+
+    color_id = st.text_input('Please enter the color id: ')
+
+    color_button = st.button('Delete Color', key=3)
+
+    if color_button:
+        color.delete_color(color_id)
+        st.write('successful')
+
+frame_size_options = st.selectbox('Please select an option for the Frame Size Table: ',
+                                    ('Choose an option', 'View', 'Insert', 'Update', 'Delete'))
+
+if frame_size_options == 'View':
+    st.write(frame_size.display_frame_size())
+
+elif frame_size_options == 'Insert':
+    frame_size_choice = st.text_input('Please enter a Frame Size (e.g. 1/16): ')
+
+    frame_button = st.button('Insert Frame Size', key=1)
+
+    if frame_button:
+        frame_size.insert_frame_size(frame_size_choice)
+        st.write('Frame Size Successfully Inserted')
+
+elif frame_size_options == 'Update':
+    st.write(frame_size.display_frame_size())
+
+    frame_size_id = st.text_input('Please enter the Frame Size id: ')
+    frame_size_choice = st.text_input('Please enter a New Frame Size: ')
+
+    frame_button = st.button('Update Frame Size', key=2)
+
+    if frame_button:
+        frame_size.update_frame_size(frame_size_id, frame_size_choice)
+        st.write('Update Successful')
+
+elif frame_size_options == 'Delete':
+    st.write(frame_size.display_frame_size())
+
+    frame_size_id = st.text_input('Please enter the frame size id: ')
+
+    frame_button = st.button('Delete Frame Size', key=3)
+
+    if frame_button:
+        frame_size.delete_frame_size(frame_size_id)
+        st.write('Delete Successful')
