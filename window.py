@@ -1,6 +1,6 @@
 import pandas as pd
 
-class Window:
+class window:
 
     def __init__(self, cvcursor, cvconn):
         self.cvcursor = cvcursor
