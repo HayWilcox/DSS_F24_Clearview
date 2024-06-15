@@ -25,3 +25,5 @@ class fastener:
     def delete_fastener(self, fastener_id):
         self.cvcursor.execute('DELETE FROM fastener WHERE fastener_id = %s', (fastener_id,))
         self.cvconn.commit()
+        
+        ## added code to commit

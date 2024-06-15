@@ -25,3 +25,5 @@ class mesh:
     def delete_mesh(self, mesh_id):
         self.cvcursor.execute('DELETE FROM mesh WHERE mesh_id = %s', (mesh_id,))
         self.cvconn.commit()
+        
+## added code for commit
