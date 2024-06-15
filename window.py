@@ -8,7 +8,7 @@ class window:
 
     def insert_window(self, frame_size, frame_color, fractions, plus_or_minus, tab_spring, mesh, fasteners):
         query = """
-        INSERT INTO window (`Frame Size`, `Frame Color`, `Fractions`, `Plus or Minus`, `Tab/Spring`, `Mesh`, `Fasteners`)
+        INSERT INTO window (frame_size, frame_color, fractions, plus_or_minus, tab_spring, mesh, fasteners)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         values = (frame_size, frame_color, fractions, plus_or_minus, tab_spring, mesh, fasteners)
@@ -27,7 +27,7 @@ class window:
     def update_window(self, window_id, frame_size, frame_color, fractions, plus_or_minus, tab_spring, mesh, fasteners):
         query = """
         UPDATE window
-        SET `Frame Size` = %s, `Frame Color` = %s, `Fractions` = %s, `Plus or Minus` = %s, `Tab/Spring` = %s, `Mesh` = %s, `Fasteners` = %s
+        SET frame_size = %s, frame_color = %s, fractions = %s, plus_or_minus = %s, tab_spring = %s, mesh = %s, fasteners = %s
         WHERE window_id = %s
         """
         values = (frame_size, frame_color, fractions, plus_or_minus, tab_spring, mesh, fasteners, window_id)
