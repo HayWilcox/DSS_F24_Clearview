@@ -22,12 +22,12 @@ class color:
         self.cvconn.commit()
 
     def select_mirage_mesh(self):
-        self.cvcursor.execute('SELECT * FROM mirage_mesh')
+        self.cvcursor.execute('SELECT mirage_mesh_id, mirage_build_out, mesh_type FROM mirage m INNER JOIN mirage_mesh mm ON m.mirage_id = mm.mirage_id INNER JOIN mesh me ON mm.mesh_id = me.mesh_id')
         return self.cvcursor.fetchall()
     
     def display_mirage_mesh(self):
         df = pd.DataFrame(self.select_mirage_mesh())
-        df.columns = ['Mirage Mesh Id', 'Mirage Id', 'Mesh Id']
+        df.columns = ['Mirage Mesh Id', 'Mirage Build Out', 'Mesh Type']
         return df
     
     def update_mirage_mesh(self, mirage_mesh_id, mirage_build_out, mesh_type):
