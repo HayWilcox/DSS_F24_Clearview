@@ -1,5 +1,5 @@
 import pandas as pd
-class color:
+class mirage_mesh:
 
     def __init__(self, cvcursor, cvconn):
         self.cvcursor = cvcursor
