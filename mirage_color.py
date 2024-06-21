@@ -24,7 +24,7 @@ class mirage_color:
         self.cvconn.commit()
 
     def select_mirage_color(self):
-        self.cvcursor.execute('SELECT mirage_color_id, mirage_build_out, color_name, mirage_color, pivot_pro_color FROM mirage m INNER JOIN mirage_color mc ON m.mirage_id = mc.mirage_id INNER JOIN color c ON mm.color_id = c.color_id')
+        self.cvcursor.execute('SELECT mirage_color_id, mirage_build_out, color_name, mirage_color, pivot_pro_color FROM mirage m INNER JOIN mirage_color mc ON m.mirage_id = mc.mirage_id INNER JOIN color c ON mc.color_id = c.color_id')
         return self.cvcursor.fetchall()
     
     def display_mirage_color(self):
