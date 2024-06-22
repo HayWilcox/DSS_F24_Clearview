@@ -7,3 +7,4 @@ blank_project_repository.Rproj
 data
 __pycache__
 .vscode
+.backup
