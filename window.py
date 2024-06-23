@@ -30,7 +30,7 @@ class window:
         SET frame_size = %s, frame_color = %s, fractions = %s, plus_or_minus = %s, tab_spring = %s, mesh = %s, fasteners = %s
         WHERE window_id = %s
         """
-        values = (frame_size, frame_color, fractionss, plus_or_minus, tab_spring, mesh, fasteners, window_id)
+        values = (frame_size, frame_color, fractions, plus_or_minus, tab_spring, mesh, fasteners, window_id)
         self.cvcursor.execute(query, values)
         self.cvconn.commit()
 
