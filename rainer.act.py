@@ -20,3 +20,4 @@ class rainier_act:
     def delete_rainier_act(self, rainier_id):
         self.cvcursor.execute('DELETE FROM rainier WHERE rainier_id = %s', (rainier_id,))
         self.cvconn.commit()
+        
