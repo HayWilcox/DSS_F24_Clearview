@@ -11,6 +11,7 @@ import os
 import mysql.connector
 from color import *
 from frame_size import *
+from new_window_screen import * 
 
 try:
     import streamlit as st
@@ -37,6 +38,7 @@ cvcursor = clearview.cursor()
 # -----------------------
 color = color(cvcursor, clearview)
 frame_size = frame_size(cvcursor, clearview)
+new_window_screen = new_window_screen(cvcursor, clearview)
 
 # -----------------------
 # Main Program
@@ -79,7 +81,8 @@ elif color_options == 'Delete':
     if color_button:
         color.delete_color(color_id)
         st.write('successful')
-
+        
+# Frame_size options
 frame_size_options = st.selectbox('Please select an option for the Frame Size Table: ',
                                     ('Choose an option', 'View', 'Insert', 'Update', 'Delete'))
 
@@ -117,3 +120,16 @@ elif frame_size_options == 'Delete':
     if frame_button:
         frame_size.delete_frame_size(frame_size_id)
         st.write('Delete Successful')
+        
+        
+# New_Window_Screen Section
+# INSERT, UPDATE, and DELETE options drop down for new_window_screen
+nws_options = st.selectbox('Please select an option for the New Window Screen Table: ', ('Choose an option','View', 'Insert', 'Update', 'Delete'))
+
+if nws_options == 'Insert':
+    nws_choice = st.text_input('Please enter a new window screen title: ')
+    nws_insert_button = st.button('Insert New Window Screen', key=1)
+
+    if nws_insert_button:
+        new_window_screen.insert_new_window_screen(nws_choice)
+        st.write('Process was Successful')
