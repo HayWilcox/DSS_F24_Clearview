@@ -35,7 +35,7 @@ class nws_measurement:
         return df
     
     def update_nws_measurement(self, nws_measurement_id, measurement_name, width_inch, height_inch, width_fraction, width_plus_minus, height_fraction, height_plus_minus):
-        self.cvcursor.execute('UPDATE nws_measurement SET measurement_id = (SELECT measurement_id FROM measurement WHERE measurement_name = %s), nws_id = (SELECT nws_id FROM new_window_screenWHERE width_inch = %s AND height_inch = %s), width_fraction = %s, width_plus_minus = %s, height_fraction = %s, height_plus_minus = %s WHERE nws_measurement_id = %s', (measurement_name, width_inch, height_inch, width_fraction, width_plus_minus, height_fraction, height_plus_minus, nws_measurement_id))
+        self.cvcursor.execute('UPDATE nws_measurement SET measurement_id = (SELECT measurement_id FROM measurement WHERE measurement_name = %s), nws_id = (SELECT nws_id FROM new_window_screen WHERE width_inch = %s AND height_inch = %s), width_fraction = %s, width_plus_minus = %s, height_fraction = %s, height_plus_minus = %s WHERE nws_measurement_id = %s', (measurement_name, width_inch, height_inch, width_fraction, width_plus_minus, height_fraction, height_plus_minus, nws_measurement_id))
         self.cvconn.commit()
 
     def delete_nws_measurement(self, nws_measurement_id):
