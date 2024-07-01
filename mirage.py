@@ -1,5 +1,5 @@
 import pandas as pd
-class color:
+class mirage:
 
     def __init__(self, cvcursor, cvconn):
         self.cvcursor = cvcursor
@@ -19,9 +19,9 @@ class color:
         return df
     
     def update_mirage(self, mirage_id, mirage):
-        self.cvcursor.execute('UPDATE mirage SET mirage_build_out = %s WHERE mirage_id = %s', (mirage, mirage_id))
+        self.cvcursor.execute('UPDATE mirage SET mirage_build_out = %s WHERE mirage_build_out = %s', (mirage, mirage_id))
         self.cvconn.commit()
 
-    def delete_color(self, mirage_id):
+    def delete_mirage(self, mirage_id):
         self.cvcursor.execute('DELETE FROM mirage WHERE mirage_build_out = %s', (mirage_id,))
         self.cvconn.commit()
