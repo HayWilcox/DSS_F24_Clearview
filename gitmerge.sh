@@ -1,3 +1,4 @@
+#!/bin/bash
 # Create git merge request from main to branch 
 # using branch name as argument
 

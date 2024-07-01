@@ -1,5 +1,5 @@
 import pandas as pd
-class color:
+class mirage_mesh:
 
     def __init__(self, cvcursor, cvconn):
         self.cvcursor = cvcursor
@@ -21,19 +21,19 @@ class color:
                                 (mirage_build_out, mesh_type))
         self.cvconn.commit()
 
-    def select_color(self):
-        self.cvcursor.execute('SELECT * FROM color')
+    def select_mirage_mesh(self):
+        self.cvcursor.execute('SELECT mirage_mesh_id, mirage_build_out, mesh_type FROM mirage m INNER JOIN mirage_mesh mm ON m.mirage_id = mm.mirage_id INNER JOIN mesh me ON mm.mesh_id = me.mesh_id')
         return self.cvcursor.fetchall()
     
-    def display_color(self):
-        df = pd.DataFrame(self.select_color())
-        df.columns = ['Color Id', 'Color']
+    def display_mirage_mesh(self):
+        df = pd.DataFrame(self.select_mirage_mesh())
+        df.columns = ['Mirage Mesh Id', 'Mirage Build Out', 'Mesh Type']
         return df
     
-    def update_color(self, color_id, color):
-        self.cvcursor.execute('UPDATE color SET color_name = %s WHERE color_id = %s', (color, color_id))
+    def update_mirage_mesh(self, mirage_mesh_id, mirage_build_out, mesh_type):
+        self.cvcursor.execute('UPDATE mirage_mesh SET mirage_id = (SELECT mirage_id FROM mirage WHERE mirage_build_out = %s), mesh_id = (SELECT mesh_id FROM mesh WHERE mesh_type = %s) WHERE mirage_mesh_id = %s', (mirage_build_out, mesh_type, mirage_mesh_id))
         self.cvconn.commit()
 
-    def delete_color(self, color_id):
-        self.cvcursor.execute('DELETE FROM color WHERE color_id = %s', (color_id,))
+    def delete_mirage_mesh(self, mirage_mesh_id):
+        self.cvcursor.execute('DELETE FROM mirage_mesh WHERE mirage_mesh_id = %s', (mirage_mesh_id,))
         self.cvconn.commit()
