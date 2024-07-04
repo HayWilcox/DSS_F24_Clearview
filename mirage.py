@@ -23,5 +23,5 @@ class mirage:
         self.cvconn.commit()
 
     def delete_mirage(self, mirage_id):
-        self.cvcursor.execute('DELETE FROM mirage WHERE mirage_build_out = %s', (mirage_id,))
+        self.cvcursor.execute('DELETE FROM mirage WHERE mirage_id = %s', (mirage_id,))
         self.cvconn.commit()
