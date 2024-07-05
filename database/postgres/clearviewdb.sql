@@ -31,6 +31,10 @@ DROP TABLE IF EXISTS mirage_3500_mesh;
 DROP TABLE IF EXISTS mirage_mesh;
 DROP TABLE IF EXISTS mirage_3500_color;
 DROP TABLE IF EXISTS mirage_color;
+DROP TABLE IF EXISTS rainier_order;
+DROP TABLE IF EXISTS mirage_order;
+DROP TABLE IF EXISTS mirage_3500_order;
+DROP TABLE IF EXISTS nws_order;
 
 -- -----------------------------------------------------
 -- Table address
