@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS employee
   employee_id SERIAL,
   e_fname CHARACTER VARYING NOT NULL,
   e_lname CHARACTER VARYING NOT NULL,
-  access_type CHARACTER VARYING NOT NULL,
+  access_type CHARACTER VARYING NOT NULL DEFAULT 'Employee' COMMENT 'Employee or Admin',
   CONSTRAINT employee_pk PRIMARY KEY (employee_id)
 );
 
