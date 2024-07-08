@@ -12,9 +12,8 @@ import mysql.connector
 from color import * # done
 from frame_size import * # done
 from new_window_screen import * # done
-# TODO
-from fastener import * #
-from measurement import *
+from fastener import * # done
+from measurement import * # done, but has yellow underlines
 from mesh import *
 from mirage_3500 import *
 from mirage_mesh import *
@@ -196,7 +195,7 @@ elif fastener_options == 'Update':
     f_update_button = st.button('Update Fastener', key=2)
 
     if f_update_button:
-        fastener.update_fastener(fastener_choice, fastener_id)
+        fastener.update_fastener(fastener_id, fastener_choice)
         st.write('Successful')
 
 elif color_options == 'Delete':
@@ -208,4 +207,44 @@ elif color_options == 'Delete':
 
     if f_delete_button:
         fastener.delete_fastener(fastener_id)
+        st.write('Successful Deletion')
+        
+# ##########################
+
+# measurement table UI
+measurement_options = st.selectbox('Please select an option for the Measurement Table: ', 
+                                ('Choose an option','View', 'Insert', 'Update', 'Delete'))
+
+if measurement_options == 'Insert':
+    measurement_choice = st.text_input('Please enter a measurement: ')
+    m_insert_button = st.button('Insert Measurement', key=1)
+
+    if m_insert_button:
+        measurement.insert_measurement(measurement_choice)
+        st.write('Successful')
+
+elif measurement_options == 'View':
+    st.write(measurement.display_measurement())
+
+elif measurement_options == 'Update':
+    st.write(measurement.display_measurement())
+
+    measurement_id = st.text_input('Please enter the measurement id: ')
+    measurement_choice = st.text_input('Please enter a measurement: ')
+
+    measurement_button = st.button('Update Measurement', key=2)
+
+    if measurement_button:
+        measurement.update_measurement(measurement_id, measurement_choice)
+        st.write('Successful Update')
+
+elif measurement_options == 'Delete':
+    st.write(measurement.display_measurement())
+
+    measurement_id = st.text_input('Please enter the color id: ')
+
+    m_delete_button = st.button('Delete Measurement', key=3)
+
+    if m_delete_button:
+        measurement.delete_measurement(measurement_id)
         st.write('Successful Deletion')
