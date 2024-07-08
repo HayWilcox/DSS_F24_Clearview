@@ -11,7 +11,7 @@ import os
 import mysql.connector
 from color import * # done
 from frame_size import * # done
-from new_window_screen import * #
+from new_window_screen import * # done
 # TODO
 from fastener import * #
 from measurement import *
@@ -48,6 +48,7 @@ cvcursor = clearview.cursor()
 color = color(cvcursor, clearview)
 frame_size = frame_size(cvcursor, clearview)
 new_window_screen = new_window_screen(cvcursor, clearview)
+fastener = fastener(cvcursor,clearview)
 
 # -----------------------
 # Main Program
@@ -170,3 +171,41 @@ elif nws_options == 'Delete':
     if nws_delete_button:
         new_window_screen.delete_new_window_screen(nws_id)
         st.write('Successful deletion!')
+        
+# #######################################
+# fastener options
+fastener_options = st.selectbox('Please select an option for the Fastener Table: ',) 
+
+if fastener_options == 'Insert':
+    fastener_type = st.text_input('Please enter a fastener type: ')
+    fastener_button = st.button('Insert Fastener', key=1)
+
+    if fastener_button:
+        fastener.insert_fastener(fastener_type)
+        st.write('Successful')
+
+elif fastener_options == 'View':
+    st.write(fastener.display_fastener())
+
+elif fastener_options == 'Update':
+    st.write(fastener.display_fastener())
+
+    fastener_id = st.text_input('Please enter the fastener''s id: ')
+    fastener_choice = st.text_input('Please enter a fastener type: ')
+
+    f_update_button = st.button('Update Fastener', key=2)
+
+    if f_update_button:
+        fastener.update_fastener(fastener_choice, fastener_id)
+        st.write('Successful')
+
+elif color_options == 'Delete':
+    st.write(fastener.display_fastener())
+
+    fastener_id = st.text_input('Please enter the fastener''s id: ')
+
+    f_delete_button = st.button('Delete Fastener', key=3)
+
+    if f_delete_button:
+        fastener.delete_fastener(fastener_id)
+        st.write('Successful Deletion')
