@@ -8,3 +8,5 @@ data
 __pycache__
 .vscode
 .backup
+
+database/postgres/pg_db.sql

@@ -1,6 +1,6 @@
 import pandas as pd
 
-class Measurement:
+class measurement:
     
     def __init__(self, cvcursor, cvconn):
         self.cvcursor = cvcursor
