@@ -9,9 +9,18 @@
 # -----------------------
 import os
 import mysql.connector
-from color import *
-from frame_size import *
-from new_window_screen import * 
+from color import * # done
+from frame_size import * # done
+from new_window_screen import * #
+# TODO
+from fastener import * #
+from measurement import *
+from mesh import *
+from mirage_3500 import *
+from mirage_mesh import *
+from nws_measurement import *
+from rainier_act import *
+from rainier_color import *
 
 try:
     import streamlit as st
@@ -122,14 +131,42 @@ elif frame_size_options == 'Delete':
         st.write('Delete Successful')
         
         
-# New_Window_Screen Section
+# Section: New_Window_Screen
 # INSERT, UPDATE, and DELETE options drop down for new_window_screen
 nws_options = st.selectbox('Please select an option for the New Window Screen Table: ', ('Choose an option','View', 'Insert', 'Update', 'Delete'))
 
 if nws_options == 'Insert':
-    nws_choice = st.text_input('Please enter a new window screen title: ')
+    width_inch = st.text_input('Please enter a new width in inches: ')
+    height_inch = st.text_input('Please enter a new height in inches: ')
     nws_insert_button = st.button('Insert New Window Screen', key=1)
 
     if nws_insert_button:
-        new_window_screen.insert_new_window_screen(nws_choice)
-        st.write('Process was Successful')
+        new_window_screen.insert_new_window_screen(width_inch, height_inch)
+        st.write('Success!')
+        
+elif nws_options == 'View':
+    st.write(new_window_screen.display_new_window_screen())
+    
+elif nws_options == 'Update':
+    st.write(new_window_screen.display_new_window_screen())
+
+    nws_id = st.text_input('Please enter the new window screen id: ')
+    width_inch = st.text_input('Please enter a new width in inches: ')
+    height_inch = st.text_input('Please enter a new height in inches: ')
+
+    nws_update_button = st.button('Update New Window Screen', key=2)
+
+    if nws_update_button:
+        new_window_screen.update_new_window_screen(nws_id, width_inch, height_inch)
+        st.write('Update Successful!')
+        
+elif nws_options == 'Delete':
+    st.write(new_window_screen.display_new_window_screen())
+
+    nws_id = st.text_input('Please enter the window screen id: ')
+
+    nws_delete_button = st.button('Delete Window Screen', key=3)
+
+    if nws_delete_button:
+        new_window_screen.delete_new_window_screen(nws_id)
+        st.write('Successful deletion!')
