@@ -11,10 +11,9 @@ import os
 import mysql.connector
 from color import * # done
 from frame_size import * # done
-from new_window_screen import * #
-# TODO
-from fastener import * #
-from measurement import *
+from new_window_screen import * # done
+from fastener import * # done
+from measurement import * # done, but has yellow underlines
 from mesh import *
 from mirage_3500 import *
 from mirage_mesh import *
@@ -48,6 +47,7 @@ cvcursor = clearview.cursor()
 color = color(cvcursor, clearview)
 frame_size = frame_size(cvcursor, clearview)
 new_window_screen = new_window_screen(cvcursor, clearview)
+fastener = fastener(cvcursor,clearview)
 
 # -----------------------
 # Main Program
@@ -170,3 +170,81 @@ elif nws_options == 'Delete':
     if nws_delete_button:
         new_window_screen.delete_new_window_screen(nws_id)
         st.write('Successful deletion!')
+        
+# #######################################
+# fastener options
+fastener_options = st.selectbox('Please select an option for the Fastener Table: ',) 
+
+if fastener_options == 'Insert':
+    fastener_type = st.text_input('Please enter a fastener type: ')
+    fastener_button = st.button('Insert Fastener', key=1)
+
+    if fastener_button:
+        fastener.insert_fastener(fastener_type)
+        st.write('Successful')
+
+elif fastener_options == 'View':
+    st.write(fastener.display_fastener())
+
+elif fastener_options == 'Update':
+    st.write(fastener.display_fastener())
+
+    fastener_id = st.text_input('Please enter the fastener''s id: ')
+    fastener_choice = st.text_input('Please enter a fastener type: ')
+
+    f_update_button = st.button('Update Fastener', key=2)
+
+    if f_update_button:
+        fastener.update_fastener(fastener_id, fastener_choice)
+        st.write('Successful')
+
+elif color_options == 'Delete':
+    st.write(fastener.display_fastener())
+
+    fastener_id = st.text_input('Please enter the fastener''s id: ')
+
+    f_delete_button = st.button('Delete Fastener', key=3)
+
+    if f_delete_button:
+        fastener.delete_fastener(fastener_id)
+        st.write('Successful Deletion')
+        
+# ##########################
+
+# measurement table UI
+measurement_options = st.selectbox('Please select an option for the Measurement Table: ', 
+                                ('Choose an option','View', 'Insert', 'Update', 'Delete'))
+
+if measurement_options == 'Insert':
+    measurement_choice = st.text_input('Please enter a measurement: ')
+    m_insert_button = st.button('Insert Measurement', key=1)
+
+    if m_insert_button:
+        measurement.insert_measurement(measurement_choice)
+        st.write('Successful')
+
+elif measurement_options == 'View':
+    st.write(measurement.display_measurement())
+
+elif measurement_options == 'Update':
+    st.write(measurement.display_measurement())
+
+    measurement_id = st.text_input('Please enter the measurement id: ')
+    measurement_choice = st.text_input('Please enter a measurement: ')
+
+    measurement_button = st.button('Update Measurement', key=2)
+
+    if measurement_button:
+        measurement.update_measurement(measurement_id, measurement_choice)
+        st.write('Successful Update')
+
+elif measurement_options == 'Delete':
+    st.write(measurement.display_measurement())
+
+    measurement_id = st.text_input('Please enter the color id: ')
+
+    m_delete_button = st.button('Delete Measurement', key=3)
+
+    if m_delete_button:
+        measurement.delete_measurement(measurement_id)
+        st.write('Successful Deletion')
