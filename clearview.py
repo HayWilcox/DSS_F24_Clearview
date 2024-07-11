@@ -13,13 +13,17 @@ from color import * # done
 from frame_size import * # done
 from new_window_screen import * # done
 from fastener import * # done
+import measurement 
 from measurement import * # done, but has yellow underlines
-from mesh import *
+from mesh import * # 
+from mirage import *
 from mirage_3500 import *
+from mirage_color import *
 from mirage_mesh import *
 from nws_measurement import *
 from rainier_act import *
 from rainier_color import *
+from window import *
 
 try:
     import streamlit as st
@@ -48,6 +52,15 @@ color = color(cvcursor, clearview)
 frame_size = frame_size(cvcursor, clearview)
 new_window_screen = new_window_screen(cvcursor, clearview)
 fastener = fastener(cvcursor,clearview)
+measurement = measurement(cvcursor,clearview)
+mesh = mesh(cvcursor,clearview)
+mirage = mirage(cvcursor,clearview)
+mirage_3500 = mirage_3500(cvcursor,clearview)
+mirage_color = mirage_color(cvcursor,clearview)
+nws_measurement = nws_measurement(cvcursor,clearview)
+rainier_act = rainier_act(cvcursor,clearview)
+rainier_color = rainier_color(cvcursor,clearview)
+window = window(cvcursor,clearview)
 
 # -----------------------
 # Main Program
@@ -198,7 +211,7 @@ elif fastener_options == 'Update':
         fastener.update_fastener(fastener_id, fastener_choice)
         st.write('Successful')
 
-elif color_options == 'Delete':
+elif fastener_options == 'Delete':
     st.write(fastener.display_fastener())
 
     fastener_id = st.text_input('Please enter the fastener''s id: ')
