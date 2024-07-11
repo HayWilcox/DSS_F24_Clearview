@@ -35,4 +35,3 @@ class mirage_3500_color:
     def delete_mirage_3500_color(self, mirage_3500_color_id):
         self.cvcursor.execute('DELETE FROM mirage_3500_color WHERE mirage_3500_color_id = %s', (mirage_3500_color_id,))
         self.cvconn.commit()
-    
