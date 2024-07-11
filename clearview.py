@@ -186,7 +186,7 @@ elif nws_options == 'Delete':
         
 # #######################################
 # fastener options
-fastener_options = st.selectbox('Please select an option for the Fastener Table: ',) 
+fastener_options = st.selectbox('Please select an option for the Fastener Table: ',('Choose an option','View', 'Insert', 'Update', 'Delete')) 
 
 if fastener_options == 'Insert':
     fastener_type = st.text_input('Please enter a fastener type: ')
